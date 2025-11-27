@@ -1,30 +1,28 @@
 Windows Location & Network Diagnostic Logger
 
-A PowerShell script that logs location sources, geographic coordinates, timezone, public IP, and nearby Wi-Fi network details (SSIDs and BSSIDs) to CSV files.
-Designed to help troubleshoot incorrect geolocation, Wi-Fi positioning errors, or unexpected region mismatches on Windows systems.
+A PowerShell script that logs location sources, geographic coordinates, timezone, public IP, and nearby Wi-Fi network details (SSIDs & BSSIDs) to CSV files.
+Designed to help diagnose incorrect geolocation, Wi-Fi positioning errors, and unexpected region mismatches on Windows systems.
 
-Features
-
+⭐ Features
 Logs latitude, longitude, accuracy, city, state, country
-Detects whether location is derived from Wi-Fi or IP-based sources
+Detects whether the location is derived from Wi-Fi or IP-based sources
 Records your current public IP address
 Scans and logs all nearby Wi-Fi SSIDs and BSSIDs
 SSIDs and BSSIDs are strictly separated
-Multiple networks recorded in a single row
-Stores your current system timezone
-
+Multiple networks stored in a single row
+Logs your current system timezone
 Generates two CSV files:
 location_log.csv – full continuous log
 location_alerts.csv – entries where the detected city is not Brisbane (customisable)
 
-Useful for diagnosing:
+🛠 Useful For Diagnosing
 Wrong-region search results
 Incorrect website geolocation
 Microsoft Location Services inconsistencies
 Wi-Fi triangulation issues
-VPN, ISP routing, or tower handover anomalies
+VPN / ISP routing / cell-tower handover anomalies
 
-Output Columns
+📄 Output Columns
 Timestamp
 Latitude
 Longitude
@@ -32,29 +30,31 @@ Accuracy
 City
 State
 Country
-Source
+Source (WiFi or IP/Other)
 PublicIP
 SSIDs
 BSSIDs
 
+Each scan produces one row.
+SSIDs and BSSIDs are semicolon-separated lists.
 
-Each scan produces one row. SSIDs and BSSIDs are semicolon-separated lists.
+⚙️ How It Works
 
-How It Works
-Uses Windows’ GeoCoordinateWatcher to acquire coordinates
-Scans nearby Wi-Fi access points via netsh wlan show networks mode=bssid
-Reverse-geocodes coordinates using OpenStreetMap (Nominatim)
-Logs your system-reported timezone
+Uses GeoCoordinateWatcher to acquire coordinates
+Scans nearby access points via
+netsh wlan show networks mode=bssid
+Performs reverse geocoding using OpenStreetMap (Nominatim)
+Reads your system-reported timezone
 Appends data to CSV files every 15 seconds
 
-Use Cases
+🧭 Use Cases
 Troubleshooting incorrect GeoIP or Wi-Fi location on Windows
-Investigating why Microsoft services think you're in the wrong city
-Auditing network coverage, duplicate Wi-Fi networks, or rogue APs
-Recording movement patterns for testing or analysis
-Checking public IP changes over time (dynamic IP, VPN, carrier NAT)
+Understanding why Microsoft services think you're in the wrong city
+Auditing network coverage, duplicate SSIDs, or rogue APs
+Recording movement patterns for testing/automation
+Tracking public IP changes over time
 
-Running the Script
+▶️ Running the Script
 Save the script as location_logger.ps1
 Run PowerShell as Administrator
 
@@ -63,21 +63,25 @@ Execute:
 Set-ExecutionPolicy Bypass -Scope Process -Force
 .\location_logger.ps1
 
-
 The script runs continuously until closed.
 
-This script checks whether your public IP’s GeoIP location matches your expected city.
+🏙 Changing the Expected City (Alert Trigger)
+This script alerts when the detected city does not match your expected location.
 By default, it is set to Brisbane.
 
 To change it:
-Open the script in any text editor.
-Find and replace "Brisbane" with your desired city.
+Open the script in a text editor.
+Find the line:
+$ExpectedCity = "Brisbane"
+Replace "Brisbane" with your preferred city, such as:
+$ExpectedCity = "Sydney"
 
-Notes
+📌 Notes
 Uses the OpenStreetMap Nominatim API — please respect rate limits
 Works on Windows 10 and Windows 11
-Wi-Fi scanning requires wireless adapters enabled
-BSSID and SSID parsing is strict to avoid mixed data
+Wi-Fi scanning requires an enabled wireless adapter
+SSID/BSSID parsing is strict to avoid mismatched data
 
-License
+📜 License
+
 MIT License.
