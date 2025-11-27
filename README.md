@@ -4,6 +4,7 @@ A PowerShell script that logs location sources, geographic coordinates, timezone
 Designed to help diagnose incorrect geolocation, Wi-Fi positioning errors, and unexpected region mismatches on Windows systems.
 
 ⭐ Features
+
 Logs latitude, longitude, accuracy, city, state, country
 Detects whether the location is derived from Wi-Fi or IP-based sources
 Records your current public IP address
@@ -16,6 +17,7 @@ location_log.csv – full continuous log
 location_alerts.csv – entries where the detected city is not Brisbane (customisable)
 
 🛠 Useful For Diagnosing
+
 Wrong-region search results
 Incorrect website geolocation
 Microsoft Location Services inconsistencies
@@ -23,6 +25,7 @@ Wi-Fi triangulation issues
 VPN / ISP routing / cell-tower handover anomalies
 
 📄 Output Columns
+
 Timestamp
 Latitude
 Longitude
@@ -48,6 +51,7 @@ Reads your system-reported timezone
 Appends data to CSV files every 15 seconds
 
 🧭 Use Cases
+
 Troubleshooting incorrect GeoIP or Wi-Fi location on Windows
 Understanding why Microsoft services think you're in the wrong city
 Auditing network coverage, duplicate SSIDs, or rogue APs
@@ -55,6 +59,7 @@ Recording movement patterns for testing/automation
 Tracking public IP changes over time
 
 ▶️ Running the Script
+
 Save the script as location_logger.ps1
 Run PowerShell as Administrator
 
@@ -77,6 +82,7 @@ Replace "Brisbane" with your preferred city, such as:
 $ExpectedCity = "Sydney"
 
 📌 Notes
+
 Uses the OpenStreetMap Nominatim API — please respect rate limits
 Works on Windows 10 and Windows 11
 Wi-Fi scanning requires an enabled wireless adapter
