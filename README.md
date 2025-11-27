@@ -75,13 +75,17 @@ netsh wlan show networks mode=bssid
 
 ## ▶️ Running the Script
 
-1. Save the script as `location_logger.ps1`  
+1. Save the script as `location.logging.ps1`  
 2. Run PowerShell as Administrator  
 3. Execute:
 
    ```powershell
    Set-ExecutionPolicy Bypass -Scope Process -Force
-   .\location_logger.ps1
+   .\location.logging.ps1
+
+File will output to user folder (if running as admin this will be the admin user)
+USERPROFILE\location_log.csv
+USERPROFILE\location_alerts.csv
 
 🏙 Changing the Expected City (Alert Trigger)
 
