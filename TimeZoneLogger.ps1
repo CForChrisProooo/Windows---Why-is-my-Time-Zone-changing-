@@ -29,11 +29,38 @@ while ($true) {
     $lat = $loc.Latitude
     $lon = $loc.Longitude
 
-    if ($accuracy -lt 50) { $source = "WiFi" } else { $source = "IP/Other" }
+    # Source Classification
+    if ($accuracy -le 20) {
+        $source = "GPS"
+    }
+    elseif ($accuracy -le 80) {
+        $source = "Likely WiFi"
+    }
+    elseif ($accuracy -le 300) {
+        $source = "WiFi"
+    }
+    elseif ($accuracy -le 600) {
+        $source = "WiFi/Cell"
+    }
+    elseif ($accuracy -le 1200) {
+        $source = "Likely Cell"
+    }
+    elseif ($accuracy -le 2500) {
+        $source = "Cell/IP"
+    }
+    elseif ($accuracy -le 5000) {
+        $source = "Likely IP"
+    }
+    else {
+        $source = "Unknown/Hybrid"
+    }
 
     # Public IP
-    try { $publicIP = (Invoke-RestMethod -Uri "https://api.ipify.org?format=json").ip } 
-    catch { $publicIP = "Unavailable" }
+    try { 
+        $publicIP = (Invoke-RestMethod -Uri "https://api.ipify.org?format=json").ip 
+    } catch { 
+        $publicIP = "Unavailable" 
+    }
 
     # Wi-Fi SSID + BSSID scan
     try {
@@ -41,7 +68,6 @@ while ($true) {
         $ssidMatches = @()
         $bssidMatches = @()
 
-        # Parse SSID and BSSID explicitly
         foreach ($line in $wifiScan) {
             if ($line -match '^\s*SSID\s+\d+\s+:\s+(.*)$') { 
                 $ssidMatches += $Matches[1].Trim() 
@@ -74,7 +100,7 @@ while ($true) {
         if ($geo.address.state) { $state = $geo.address.state } else { $state = "Unknown" }
         if ($geo.address.country) { $country = $geo.address.country } else { $country = "Unknown" }
 
-        # Normalize Brisbane
+        # Normalise specific cities
         if ($city -match 'Brisbane') { $city = "Brisbane" }
 
     } catch {
